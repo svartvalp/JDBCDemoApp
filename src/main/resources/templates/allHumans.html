@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+    <head></head>
+    <body>
+    <div>
+        <h2 th:if="${humans.size() == 0}">No users!</h2>
+        <div th:if="${humans.size() > 0}">
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Last name</th>
+                    <th>Age</th>
+                </thead>
+                <tbody>
+                    <tr th:each="human : ${humans}">
+                        <td th:text="${human.name}"></td>
+                        <td th:text="${human.lastName}"></td>
+                        <td th:text="${human.age}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+</html>

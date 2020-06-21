@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+    <head></head>
+    <body>
+        <div>
+            <form action="#" th:action="@{/human/add}" th:object="${human}" method="post">
+                <label for="name">Name</label>
+                <input type="text" th:field="*{name}" id="name" placeholder="Name">
+                <label for="lastName">Email</label>
+                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name">
+                <label for="age">Age</label>
+                <input type="text" th:field="*{age}" id="age" placeholder="Age">
+                <input type="submit" value="Add human">
+            </form>
+        </div>
+    </body>
+</html>
