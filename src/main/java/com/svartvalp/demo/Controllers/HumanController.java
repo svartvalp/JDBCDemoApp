@@ -5,9 +5,7 @@ import com.svartvalp.demo.Repositories.HumanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HumanController {
@@ -25,9 +23,26 @@ public class HumanController {
     }
 
     @GetMapping(value = "/human/add")
-    public String addHumanForm(Human human) {
+    public String addHumanForm(Model model) {
+        model.addAttribute("human", new Human());
         return "addHuman";
     }
+
+    @PostMapping(value = "/human/{id}/change")
+    public String changeHuman(@RequestParam("name") String name,
+                              @RequestParam("lastName") String lastName,
+                              @RequestParam("age") int age,
+                              @PathVariable("id") int id) {
+        humanRepository.updateHuman(id, new Human(id, name, lastName, age));
+        return "redirect:/human";
+    }
+
+    @GetMapping(value = "/human/{id}")
+    public String showHuman(@PathVariable("id") int id, Model model) {
+        model.addAttribute("human", humanRepository.findHumanById(id).orElseThrow(() -> {throw new RuntimeException("no,no,NO");}));
+        return "human";
+    }
+
 
     @PostMapping(value = "/human/add")
     public String addHuman(Human human) {

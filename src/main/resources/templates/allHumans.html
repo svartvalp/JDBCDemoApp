@@ -15,6 +15,7 @@
                         <td th:text="${human.name}"></td>
                         <td th:text="${human.lastName}"></td>
                         <td th:text="${human.age}"></td>
+                        <td><a th:href="@{/human/{id}(id=${human.id})}">Change</a></td>
                     </tr>
                 </tbody>
             </table>
