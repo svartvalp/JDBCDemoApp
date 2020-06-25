@@ -3,6 +3,8 @@ package com.svartvalp.demo.Controllers;
 import com.svartvalp.demo.Exceptions.NotFoundException;
 import com.svartvalp.demo.Human;
 import com.svartvalp.demo.Repositories.HumanRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HumanController {
     HumanRepository humanRepository;
+    Logger logger = LoggerFactory.getLogger(HumanController.class);
 
     @Autowired
     public void setHumanRepository(HumanRepository humanRepository) {
@@ -49,13 +52,17 @@ public class HumanController {
 
     @PostMapping(value = "/human/add")
     public String addHuman(Human human) {
-        humanRepository.insertHuman(human);
+        humanRepository.insertHuman(human)
+                .ifPresentOrElse(id -> logger.info("successfully inserted human with id : {}", id),
+                        () -> logger.warn("cannot insert human into db!"));
         return "redirect:";
     }
 
     @DeleteMapping(value = "/human/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteHuman(@PathVariable("id") int id) {
+        logger.info("trying to delete human with id : {}",id);
         humanRepository.deleteHuman(id);
+        logger.info("successfully deleted human with id : {}", id);
     }
 }
