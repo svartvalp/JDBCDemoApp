@@ -1,5 +1,6 @@
 package com.svartvalp.demo.Controllers;
 
+import com.svartvalp.demo.Exceptions.NotFoundException;
 import com.svartvalp.demo.Human;
 import com.svartvalp.demo.Repositories.HumanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ public class HumanController {
 
     @GetMapping(value = "/human/{id}")
     public String showHuman(@PathVariable("id") int id, Model model) {
-        model.addAttribute("human", humanRepository.findHumanById(id).orElseThrow(() -> {throw new RuntimeException("no,no,NO");}));
+        model.addAttribute("human", humanRepository.findHumanById(id)
+                .orElseThrow(() -> {throw new NotFoundException("human not found by id");}));
         return "human";
     }
 
