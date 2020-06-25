@@ -1,5 +1,17 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-    <head></head>
+    <head>
+        <script>
+            async function deleteHuman(id) {
+                let response = await fetch('/human/' + id, {
+                    method: 'DELETE'
+                })
+                if (response.status === 200) {
+                    let tr = document.querySelector(`#${CSS.escape(id)}`)
+                    tr.parentElement.removeChild(tr)
+                }
+            }
+        </script>
+    </head>
     <body>
     <div>
         <h2 th:if="${humans.size() == 0}">No users!</h2>
@@ -11,15 +23,17 @@
                     <th>Age</th>
                 </thead>
                 <tbody>
-                    <tr th:each="human : ${humans}">
+                    <tr th:each="human : ${humans}" th:id="${human.id}">
                         <td th:text="${human.name}"></td>
                         <td th:text="${human.lastName}"></td>
                         <td th:text="${human.age}"></td>
                         <td><a th:href="@{/human/{id}(id=${human.id})}">Change</a></td>
+                        <td><button type="button" onclick="return deleteHuman(this.parentElement.parentElement.id)" >Delete</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <a href="/human/add">Add new human</a>
     </div>
     </body>
 </html>

@@ -3,6 +3,7 @@ package com.svartvalp.demo.Controllers;
 import com.svartvalp.demo.Human;
 import com.svartvalp.demo.Repositories.HumanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +49,11 @@ public class HumanController {
     public String addHuman(Human human) {
         humanRepository.insertHuman(human);
         return "redirect:";
+    }
+
+    @DeleteMapping(value = "/human/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteHuman(@PathVariable("id") int id) {
+        humanRepository.deleteHuman(id);
     }
 }
